@@ -9,11 +9,9 @@
 template<class Tp, int RANGE, int MIN_VAL = 0, class Iter = typename Tp::iterator >
 class Trie {
         struct Node {
-                void insert(Iter fst, Iter last) {
-                        if (fst == last) {
-                                endp = true;
-                                return;
-                        }
+                bool insert(Iter fst, Iter last) {
+                        if (fst == last) return endp++;
+                        
                         Node *&next_ = next[*fst - MIN_VAL];
                         if (!next_) next_ = new Node;
                         next_ -> insert(++fst, last);
@@ -37,11 +35,11 @@ class Trie {
         Node *root = new Node;
 
 public:
-        
-        void insert(Iter fst, Iter last) {        root -> insert(fst, last); }
+        // returns if element already in Trie
+        bool insert(Iter fst, Iter last) { return root -> insert(fst, last); }
         bool find  (Iter fst, Iter last) { return root -> find  (fst, last); }
 
-        void insert(Tp &el) {        root -> insert(el.begin(), el.end()); } 
+        bool insert(Tp &el) { return root -> insert(el.begin(), el.end()); } 
         bool find  (Tp &el) { return root -> find  (el.begin(), el.end()); }
 
         ~Trie() { delete root; }
