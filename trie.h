@@ -14,7 +14,7 @@ class Trie {
                         
                         Node *&next_ = next[*fst - MIN_VAL];
                         if (!next_) next_ = new Node;
-                        next_ -> insert(++fst, last);
+                        return next_ -> insert(++fst, last);
                 }
         
                 bool find(Iter fst, Iter last) {
